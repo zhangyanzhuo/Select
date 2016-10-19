@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul{
+				padding: 0;
+				list-style: none;
+			}
+		</style>
+		<script>
+			window.onload = function() {
+				function Drag(){
+					this.list = document.getElementById('list');
+					this.inputs = list.querySelectorAll('input');
+					this.selall = document.getElementById('selall');
+					this.num = 0;
+				}
+				Drag.prototype.click = function() {
+					var _this = this;
+					//全选点击
+					this.selall.onclick = function() {
+						_this.allChecked(this);
+					}
+					//单个inputs点击
+					for(var i =0; i < this.inputs.length; i++){
+						this.inputs[i].onclick = function() {
+							_this.inputsChecked(this)
+						}
+					}
+				}
+				
+				//全选方法
+				Drag.prototype.allChecked = function(obj) {
+					for(var i = 0; i < this.inputs.length; i++) {
+						this.inputs[i].checked = obj.checked;
+						obj.checked?this.num = this.inputs.length:this.num = 0;
+					}
+				}
+				//单选方法
+				Drag.prototype.inputsChecked = function(obj) {
+					obj.checked ? this.num++:this.num--;
+					this.num == this.inputs.length?this.selall.checked = true:this.selall.checked = false
+				}
+				var o = new Drag();
+				o.click();
+			}
+		</script>
+	</head>
+	<body>
+		<ul id="list">
+			<li><input type="checkbox"/>1</li>
+			<li><input type="checkbox"/>2</li>
+			<li><input type="checkbox"/>3</li>
+			<li><input type="checkbox"/>4</li>
+			<li><input type="checkbox"/>5</li>
+		</ul>
+		<input type="checkbox" id="selall"/>全选
+	</body>
+</html>
